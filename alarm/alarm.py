@@ -1,4 +1,3 @@
-from playsound import playsound
 import pyaudio
 import wave
 from datetime import datetime
@@ -6,7 +5,7 @@ from tkinter import messagebox, Tk
 
 
 class Alarm:
-    MIN_MOVE_ALARM = 10
+    MIN_MOVE_ALARM = 1
     def __init__(self, min, hour, day, month, year, melody_path="default_alarm.wav"):
         self.__active = True
         self.__month = month
@@ -63,7 +62,6 @@ class Alarm:
                         output=True,
                         stream_callback=callback)
         while stream.is_active():
-            time_stop = datetime.now()
             root = Tk()
             root.withdraw()  # hide obligatory root window
             answer_positive = messagebox.askyesno("Budzik {hour}:{min}".format(hour=self.hour, min=self.min), "Usuń budzik?")
@@ -75,6 +73,9 @@ class Alarm:
                 #przenies budzik
                 self.__min += self.MIN_MOVE_ALARM
                 stream.stop_stream()
+        stream.close()
+        p.terminate()
+        wf.close()
 
     def __str__(self):
         return '{year} {month} {day} {hour} {min} {melody_path}'.format(year=self.year, month=self.month, day=self.day, hour=self.hour, min=self.min, melody_path=self.melody_path)

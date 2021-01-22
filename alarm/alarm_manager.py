@@ -1,5 +1,4 @@
 from datetime import datetime
-
 from alarm import Alarm
 
 
@@ -28,8 +27,8 @@ class AlarmManager:
 
 
 if __name__ == "__main__":
-    alarm1 = Alarm(36, 20, 22, 1, 2021)  # min, hour, day, month, year
-    alarm2 = Alarm(37, 20, 22, 1, 2021)
+    alarm1 = Alarm(9, 21, 22, 1, 2021)  # min, hour, day, month, year
+    alarm2 = Alarm(10, 21, 22, 1, 2021)
     listAlarm = []
     listAlarm.append(alarm1)
     listAlarm.append(alarm2)

@@ -43,6 +43,10 @@ class Alarm:
     def active(self):
         return self.__active
 
+    @active.setter
+    def active(self, active):
+        self.__active = active
+
     @month.setter
     def month(self, month):
         if month in range(1, 12):
@@ -80,18 +84,25 @@ class Alarm:
     def __str__(self):
         return '{year} {month} {day} {hour} {min} {melody_path}'.format(year=self.year, month=self.month, day=self.day, hour=self.hour, min=self.min, melody_path=self.melody_path)
 
-    @classmethod
-    def create_alarm_from_text_repr(cls, str_repr: str):
-        collection_symbols = str_repr.split(" ")
-        return Alarm(int(collection_symbols[0]), int(collection_symbols[1]),
-                     int(collection_symbols[2]), int(collection_symbols[3]),
-                     int(collection_symbols[4]), melody_path=collection_symbols[5])
-
     def __eq__(self, other):
         return self.min == other.minute and self.hour == other.hour and self.day == other.day and self.month == other.month and self.year == other.year
 
     def __ge__(self, other):
         return (self.min, self.hour, self.day, self.month, self.year) >= (other.minute, other.hour, other.day, other.month, other.year)
+
+    def __write_file_notation(self):
+        return "{min};{hour};{day};{month};{year}\n".format(min=self.min, hour=self.hour, day=self.day, month=self.month, year=self.year)
+
+    def write_file(self, file_path):
+        file = open(file_path, 'a')
+        file.write(self.__write_file_notation())
+        file.close()
+
+    @classmethod
+    def createFromFileNotation(cls, file_notation):
+        parametrs = file_notation.split(";")
+        return Alarm(int(parametrs[0]), int(parametrs[1]), int(parametrs[2]), int(parametrs[3]), int(parametrs[4]))
+
 
 if __name__ == "__main__":
     alarm1 = Alarm(10, 19, 22, 1, 2021)#min, hour, day, month, year

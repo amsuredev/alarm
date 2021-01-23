@@ -6,14 +6,24 @@ from tkinter import messagebox, Tk
 
 class Alarm:
     MIN_MOVE_ALARM = 1
-    def __init__(self, min, hour, day, month, year, melody_path="default_alarm.wav"):
-        self.__active = True
+
+    def __init__(self, min, hour, day, month, year, melody_path="default_alarm.wav", id=None, active=True):
+        self.__id = id
+        self.__active = active
         self.__month = month
         self.__day = day
         self.__hour = hour
         self.__min = min
         self.__melody_path = melody_path
         self.__year = year
+
+    @property
+    def id(self):
+        return self.__id
+
+    @id.setter
+    def id(self, id):
+        self.__id = id
 
     @property
     def month(self):
@@ -80,6 +90,7 @@ class Alarm:
         stream.close()
         p.terminate()
         wf.close()
+        return answer_positive
 
     def __str__(self):
         return '{year} {month} {day} {hour} {min} {melody_path}'.format(year=self.year, month=self.month, day=self.day, hour=self.hour, min=self.min, melody_path=self.melody_path)
@@ -88,21 +99,11 @@ class Alarm:
         return self.min == other.minute and self.hour == other.hour and self.day == other.day and self.month == other.month and self.year == other.year
 
     def __ge__(self, other):
-        return (self.min, self.hour, self.day, self.month, self.year) >= (other.minute, other.hour, other.day, other.month, other.year)
-
-    def __write_file_notation(self):
-        return "{min};{hour};{day};{month};{year}\n".format(min=self.min, hour=self.hour, day=self.day, month=self.month, year=self.year)
-
-    def write_file(self, file_path):
-        file = open(file_path, 'a')
-        file.write(self.__write_file_notation())
-        file.close()
-
+        return (self.year, self.month, self.day, self.hour, self.min) >= (
+        other.year, other.month, other.day, other.hour, other.minute)
     @classmethod
-    def createFromFileNotation(cls, file_notation):
-        parametrs = file_notation.split(";")
-        return Alarm(int(parametrs[0]), int(parametrs[1]), int(parametrs[2]), int(parametrs[3]), int(parametrs[4]))
-
+    def createFromTumple(cls, tumple):#necesary for db
+        return Alarm(min=tumple[2], hour=tumple[3], day=tumple[4], month=tumple[5], year=tumple[6], melody_path=tumple[7], id=tumple[0], active=tumple[1])
 
 if __name__ == "__main__":
     alarm1 = Alarm(10, 19, 22, 1, 2021)#min, hour, day, month, year

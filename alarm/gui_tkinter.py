@@ -17,6 +17,13 @@ class UI:
          for alarm in self.__alarm_manager.alarm_list:
             list_alarms.insert(tkinter.END, alarm)
 
+      def delete_selected_item():
+         sel = list_alarms.curselection()
+         for index in sel[::-1]:
+            id = int(str(list_alarms.get(index)).split("-")[-1])#parse string to get id
+            self.__alarm_manager.alarm_db.mark_alarm_as_inactive(id)#mark as inactive alarm with setted id
+            list_alarms.delete(index)#remove from representation
+
       def add_alarm():
          if str(inputted_date['text']) != "RRRR-MM-DD" and str(inputted_hour.get()) != "" and str(inputted_min.get()) != "":
             #values were inputted
@@ -58,6 +65,9 @@ class UI:
 
       button_renew = tkinter.Button(text="Renew", command=renew)
       button_renew.grid(row=1, column=1)
+
+      button_delete = tkinter.Button(text="Delete", command=delete_selected_item)
+      button_delete.grid(row=1, column=2)
 
       scrollbar = tkinter.Scrollbar(root)
       scrollbar.grid(row=2, column=1)

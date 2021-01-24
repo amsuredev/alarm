@@ -28,7 +28,7 @@ class AlarmManager:
         self.renew_play_alarms()
 
     def run(self):
-        while len(self.__alarm_list) != 0:
+        while True:
             current_time = datetime.now()
             self.renew_play_alarms()
             for alarm in self.__alarm_list:
@@ -50,10 +50,4 @@ class AlarmManager:
 
 if __name__ == "__main__":
     my_alarm_manager = AlarmManager()
-    '''
-    alarm1 = Alarm(38, 17, 23, 1, 2021)  # min, hour, day, month, year
-    alarm2 = Alarm(40, 17, 23, 1, 2021)
-    alarm2 = Alarm(40, 17, 23, 1, 2021)
-    alarm2 = Alarm(41, 17, 23, 1, 2021)
-    '''
     my_alarm_manager.run()

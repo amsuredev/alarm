@@ -93,7 +93,7 @@ class Alarm:
         return answer_positive
 
     def __str__(self):
-        return '{year} {month} {day} {hour} {min} {melody_path}'.format(year=self.year, month=self.month, day=self.day, hour=self.hour, min=self.min, melody_path=self.melody_path)
+        return '{year}/{month}/{day}-{hour}:{min}-{id}'.format(year=self.year, month=self.month, day=self.day, hour=self.hour, min=self.min, id=self.id)
 
     def __eq__(self, other):
         return self.min == other.minute and self.hour == other.hour and self.day == other.day and self.month == other.month and self.year == other.year

@@ -47,10 +47,9 @@ class AlarmManager:
 
 
 
+
 if __name__ == "__main__":
     my_alarm_manager = AlarmManager()
-    alarm1 = Alarm(17, 18, 23, 1, 2021)
-    my_alarm_manager.add_alarm(alarm1)
     '''
     alarm1 = Alarm(38, 17, 23, 1, 2021)  # min, hour, day, month, year
     alarm2 = Alarm(40, 17, 23, 1, 2021)

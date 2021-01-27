@@ -45,9 +45,6 @@ class AlarmManager:
         self.__alarm_list = [alarm for alarm in self.__alarm_list if alarm.active and alarm >= current_time]
 
 
-
-
-
 if __name__ == "__main__":
     my_alarm_manager = AlarmManager()
     my_alarm_manager.run()

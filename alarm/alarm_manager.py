@@ -37,7 +37,7 @@ class AlarmManager:
                     if remove_answer:
                         self.__alarm_db.mark_alarm_as_inactive(alarm.id)#alarm remove in next step cycle
                     else:
-                        self.__alarm_db.update_alarm_min(id=alarm.id, min=alarm.min)#alarm active; time, changed
+                        self.__alarm_db.update_alarm_time(alarm)
 
     def renew_play_alarms(self):
         self.__alarm_list = self.alarm_db.get_active_alarms()

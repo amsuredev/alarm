@@ -49,15 +49,6 @@ class AlarmDatabase:
         conn.commit()
         conn.close()
 
-    def update_alarm_min(self, id, min):
-        conn = sqlite3.connect('alarm.db')  # create file if not exist;connect if exist
-        cursor = conn.cursor()
-        cursor.execute("""UPDATE alarms SET MIN = :min
-                        WHERE _id = :id""", {'id': id, "min": min})
-        cursor.close()
-        conn.commit()
-        conn.close()
-
     def print_all_lines(self):
         conn = sqlite3.connect('alarm.db')  # create file if not exist;connect if exist
         cursor = conn.cursor()
@@ -65,6 +56,16 @@ class AlarmDatabase:
         lines = cursor.fetchall()
         for line in lines:
             print(line)
+        cursor.close()
+        conn.commit()
+        conn.close()
+
+    def update_alarm_time(self, alarm:Alarm):
+        conn = sqlite3.connect('alarm.db')  # create file if not exist;connect if exist
+        cursor = conn.cursor()
+        cursor.execute("""UPDATE alarms SET MIN = :min, HOUR = :hour, DAY = :day, MONTH = :month, YEAR = :year
+                        WHERE _id = :id;""", {'min': alarm.min, 'hour': alarm.hour, 'day': alarm.day, 'month': alarm.month, 'year': alarm.year, 'id': alarm.id})
+
         cursor.close()
         conn.commit()
         conn.close()

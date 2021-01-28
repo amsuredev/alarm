@@ -1,6 +1,6 @@
 import pyaudio
 import wave
-from datetime import datetime
+from datetime import datetime, timedelta
 from tkinter import messagebox, Tk
 
 
@@ -80,12 +80,16 @@ class Alarm:
             root.withdraw()  # hide obligatory root window
             answer_positive = messagebox.askyesno("Budzik {hour}:{min}".format(hour=self.hour, min=self.min), "Usuń budzik?")
             if answer_positive:
-                #usun budzik
                 stream.stop_stream()
                 self.__active = False
             else:
-                #przenies budzik
-                self.__min += self.MIN_MOVE_ALARM
+                alarm_before_move = datetime(year=self.year, month=self.month, day=self.day, hour=self.hour, minute=self.min)
+                alarm_after_move = alarm_before_move + timedelta(minutes=self.MIN_MOVE_ALARM)#use datetime mechanizm of add time
+                self.__year = alarm_after_move.year
+                self.__month = alarm_after_move.month
+                self.__day = alarm_after_move.day
+                self.__hour = alarm_after_move.hour
+                self.__min = alarm_after_move.minute
                 stream.stop_stream()
         stream.close()
         p.terminate()
